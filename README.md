@@ -16,9 +16,12 @@ server.py contains contributions from:
 
 * Abram Hindle
 * Eddie Antonio Santos
+* Di Zhang
 
 But the server.py example is derived from the python documentation
 examples thus some of the code is Copyright © 2001-2013 Python
 Software Foundation; All Rights Reserved under the PSF license (GPL
 compatible) http://docs.python.org/2/library/socketserver.html
 
+<Bold>Extra Material</Bold>
+https://hg.python.org/cpython/file/2.7/Lib/BaseHTTPServer.py
