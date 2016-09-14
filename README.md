@@ -23,5 +23,6 @@ examples thus some of the code is Copyright © 2001-2013 Python
 Software Foundation; All Rights Reserved under the PSF license (GPL
 compatible) http://docs.python.org/2/library/socketserver.html
 
-<Bold>Extra Material</Bold>
-https://hg.python.org/cpython/file/2.7/Lib/BaseHTTPServer.py
+<Bold>Extra Material</Bold>   
+https://hg.python.org/cpython/file/2.7/Lib/BaseHTTPServer.py  
+https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
