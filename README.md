@@ -26,3 +26,6 @@ compatible) http://docs.python.org/2/library/socketserver.html
 <Bold>Extra Material</Bold>   
 https://hg.python.org/cpython/file/2.7/Lib/BaseHTTPServer.py  
 https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
+https://docs.python.org/2/library/mimetypes.html
+
+Collab: https://github.com/shevaroller/CMPUT404-assignment-webserver.git 
