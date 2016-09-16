@@ -96,10 +96,6 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
         self.request.sendall(response)
 	
-    def redirect(self, address):	
-	       response="HTTP/1.1 %d %s\r\n" %(301,"Moved")
-	       response+="Location:%s\r\n\r\n" %address
-	       self.request.sendall(response)
 
 	
 

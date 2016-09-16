@@ -83,7 +83,7 @@ class MyWebServer(SocketServer.BaseRequestHandler):
             data=f.read()
             self.response(200,mime_type,data)
         else:
-            self.response(404, "html","")
+            self.response(404, "html","404 Not Found")
         
 
     #format from https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
