@@ -50,12 +50,11 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         try:
             #parse head
             reqMethod,path=self.parse_head(self.data)
-            print "RQRD"+reqMethod+path
             method=self.get(reqMethod,path)
-            #method(path)
+            
         except Error as e:
-            self.response(404, mime['HTML'],"")
-        #self.request.sendall("OK")
+            self.response(404, "html","")
+     
 	
     def parse_head(self,request):
 	       line=request.splitlines()[0]
@@ -68,25 +67,23 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         root=os.path.abspath('www')
         file=root+path
         absolute=os.path.abspath(file)
-        print "abs"+absolute
+        mime_type=absolute.split('.')[-1]
 
         #check for / and piggyback index.html 
         if os.path.isdir(absolute):
             if file[-1]!='/':
                 path=path+'/'
             absolute=os.path.join(absolute,'index.html')
-        if os.path.exists(absolute)==False:
-            self.response(404, "text/html","")
 
         #https://docs.python.org/2/library/mimetypes.html
-        mime_type=absolute.split('.')[-1]
+            mime_type=absolute.split('.')[-1]
 
-        try:
+        if(os.path.isfile(absolute) and (mime_type == "html" or mime_type == "css")):
             f=open(absolute,'r')
             data=f.read()
             self.response(200,mime_type,data)
-        except Error as e:
-            self.response(404, "text/html","")
+        else:
+            self.response(404, "html","")
         
 
     #format from https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
