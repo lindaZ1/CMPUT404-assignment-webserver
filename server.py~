@@ -74,8 +74,6 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         absolute=os.path.abspath(file)
         print "abs"+absolute
         #check for / and piggyback index.html if needed
-        if os.path.exists(absolute)==False:
-            raise Error(404)
 
         #https://docs.python.org/2/library/mimetypes.html
         mime_type=absolute.split('.')[-1]
