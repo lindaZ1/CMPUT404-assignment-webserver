@@ -34,10 +34,6 @@ responses = {
         302: ('Found', 'Object moved temporarily -- see URI list'),
         404: ('Not Found', 'Nothing matches the given URI')
         }
-mime={
-	"HTML":"text/html",
-	"CSS":"text/css"
-}
 
 
 class Error(Exception):
@@ -58,7 +54,7 @@ class MyWebServer(SocketServer.BaseRequestHandler):
             method=self.get(reqMethod,path)
             #method(path)
         except Error as e:
-            self.response(e.status_code, mime['HTML'],"")
+            self.response(404, mime['HTML'],"")
         #self.request.sendall("OK")
 	
     def parse_head(self,request):
@@ -73,26 +69,32 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         file=root+path
         absolute=os.path.abspath(file)
         print "abs"+absolute
-        #check for / and piggyback index.html if needed
+
+        #check for / and piggyback index.html 
+        if os.path.isdir(absolute):
+            if file[-1]!='/':
+                path=path+'/'
+            absolute=os.path.join(absolute,'index.html')
+        if os.path.exists(absolute)==False:
+            self.response(404, "text/html","")
 
         #https://docs.python.org/2/library/mimetypes.html
         mime_type=absolute.split('.')[-1]
-        print "m "+mime_type
 
         try:
             f=open(absolute,'r')
             data=f.read()
-            self.response(200,mime,data)
+            self.response(200,mime_type,data)
         except Error as e:
-            self.response(e.status_code, mime['HTML'],"")
+            self.response(404, "text/html","")
         
 
     #format from https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
     def response(self,status,mime,content=''):
-        response = "HTTP/1.1 %d %s \n" % (status, responses[status][0])
-        response += "Content-Length: %d \r\n" %len(content)
-        response += "Content-Type: %s \r\n" %mime
-        response += "Connection: close \r\n\r\n"
+        response = "HTTP/1.1 %d %s\n" % (status, responses[status][0])
+        response += "Content-Length: %d \n" %len(content)
+        response += "Content-Type: text/%s\n" %mime
+        response += "Connection: close\r\n\r\n"
         response += content + "\r\n"
 
         self.request.sendall(response)
