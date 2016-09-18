@@ -49,21 +49,21 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
         try:
             #parse head
-            reqMethod,path=self.parse_head(self.data)
-            method=self.get(reqMethod,path)
+            path=self.parse_head(self.data)
+            method=self.get(path)
             
         except Error as e:
             self.response(404, "html","")
      
 	
     def parse_head(self,request):
-	       line=request.splitlines()[0]
+           line=request.splitlines()[0]
         #head has 3 parts: request method, root directory
         #and protocal version
-	       reqMethod,path,ver=line.split(" ")
-	       return reqMethod, path   
+           reqMethod,path,ver=line.split(" ")
+           return path   
 
-    def get(self,req,path):
+    def get(self,path):
         root=os.path.abspath('www')
         file=root+path
         absolute=os.path.abspath(file)
@@ -71,11 +71,11 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
         #check for / and piggyback index.html 
         if os.path.isdir(absolute):
-            if file[-1]!='/':
+            if path[-1]!='/':
                 path=path+'/'
             absolute=os.path.join(absolute,'index.html')
 
-        #https://docs.python.org/2/library/mimetypes.html
+            #https://docs.python.org/2/library/mimetypes.html
             mime_type=absolute.split('.')[-1]
 
         if(os.path.isfile(absolute) and (mime_type == "html" or mime_type == "css")):
