@@ -72,7 +72,8 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         #check for / and piggyback index.html 
         if os.path.isdir(absolute):
             if path[-1]!='/':
-                path=path+'/'
+                #path=path+'/'
+                self.response(302, "","")
             absolute=os.path.join(absolute,'index.html')
 
             #https://docs.python.org/2/library/mimetypes.html
@@ -88,9 +89,11 @@ class MyWebServer(SocketServer.BaseRequestHandler):
 
     #format from https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
     def response(self,status,mime,content=''):
-        response = "HTTP/1.1 %d %s\n" % (status, responses[status][0])
-        response += "Content-Length: %d \n" %len(content)
-        response += "Content-Type: text/%s\n" %mime
+        response = "HTTP/1.1 %d %s\r\n" % (status, responses[status][0])
+        if content != "":
+            response += "Content-Length: %d \r\n" %len(content)
+        if mime != "":
+            response += "Content-Type: text/%s\r\n" %mime
         response += "Connection: close\r\n\r\n"
         response += content + "\r\n"
 
